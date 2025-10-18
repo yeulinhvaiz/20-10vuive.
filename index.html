@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yêu 💖</title>
+<style>
+  body {
+    margin: 0;
+    background: radial-gradient(circle at center, #1a001a, #000);
+    color: #ff66cc;
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Trái tim rơi nền */
+  .falling-heart {
+    position: fixed;
+    top: -20px;
+    color: #ff66cc;
+    font-size: 20px;
+    opacity: 0.8;
+    animation: fall linear forwards;
+  }
+  @keyframes fall {
+    to { transform: translateY(110vh); opacity: 0; }
+  }
+
+  /* Màn mở đầu */
+  #intro {
+    font-size: 80px;
+    font-weight: bold;
+    text-shadow: 0 0 20px #ff99ff, 0 0 40px #ff33cc;
+    animation: fadeOut 5s ease-in-out forwards;
+    z-index: 10;
+  }
+  @keyframes fadeOut {
+    0% {opacity: 1; transform: scale(1);}
+    100% {opacity: 0; transform: scale(1.5);}
+  }
+
+  /* Màn chính */
+  #main {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    z-index: 10;
+  }
+  button {
+    background: none;
+    border: 2px solid #ff66cc;
+    color: #ff66cc;
+    font-size: 24px;
+    padding: 10px 30px;
+    border-radius: 20px;
+    text-shadow: 0 0 10px #ff99ff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  button:hover {
+    background: #ff66cc;
+    color: #000;
+    box-shadow: 0 0 20px #ff33cc;
+  }
+
+  #alertBox {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background: rgba(0,0,0,0.8);
+    border: 2px solid #ff66cc;
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    color: #ff66cc;
+    text-shadow: 0 0 20px #ff33cc;
+    box-shadow: 0 0 30px #ff33cc;
+    transition: transform 0.4s ease;
+    z-index: 20;
+  }
+  #alertBox.show { transform: translate(-50%, -50%) scale(1); }
+
+  #questionBox {
+    display: none;
+    text-align: center;
+    flex-direction: column;
+    gap: 20px;
+    z-index: 10;
+  }
+  #question {
+    font-size: 30px;
+    text-shadow: 0 0 20px #ff33cc;
+    opacity: 0;
+    transition: opacity 1s ease;
+  }
+
+  #options {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  /* Hộp quà & vòng tay */
+  #giftSection {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    z-index: 15;
+  }
+  #giftBox {
+    width: 200px;
+    transition: transform 0.5s ease;
+    cursor: pointer;
+  }
+  #giftBox:hover {
+    transform: scale(1.1);
+  }
+
+  #bracelet {
+    width: 200px;
+    opacity: 0;
+    transform: scale(0.8) rotate(-10deg);
+    animation: braceletShow 2s ease forwards;
+  }
+  @keyframes braceletShow {
+    0% {opacity: 0; transform: scale(0.8) rotate(-10deg);}
+    100% {opacity: 1; transform: scale(1) rotate(0deg);}
+  }
+</style>
+</head>
+<body>
+<div id="intro">20/10 💖</div>
+
+<div id="main">
+  <h2 style="text-shadow:0 0 15px #ff99ff;">Chọn nhé, em yêu 💕</h2>
+  <button id="seeMore">Xem tiếp</button>
+  <button id="noSee">Không xem</button>
+</div>
+
+<div id="alertBox">
+  <h2>EM KHÔNG CHẤP NHẬN MÓN QUÀ NÀY À?</h2>
+</div>
+
+<div id="questionBox">
+  <p id="question"></p>
+  <div id="options">
+    <button id="yesBtn">Có 💖</button>
+    <button id="noBtn">Không 💔</button>
+  </div>
+</div>
+
+<div id="giftSection">
+  <img id="giftBox" src="https://sf-static.upanhlaylink.com/img/image_2025101857f309c2541cf37cd475f36e64697b43.jpg" alt="Hộp quà">
+  <img id="bracelet" src="https://sf-static.upanhlaylink.com/img/image_202510182ed583c5a4f6bf6586a59cac25d1f5b0.jpg" alt="Vòng tay">
+</div>
+
+<script>
+  // Hiệu ứng trái tim rơi
+  function createFallingHeart() {
+    const heart = document.createElement('div');
+    heart.classList.add('falling-heart');
+    heart.innerHTML = '💖';
+    heart.style.left = Math.random() * window.innerWidth + 'px';
+    heart.style.fontSize = 16 + Math.random() * 20 + 'px';
+    heart.style.animationDuration = 3 + Math.random() * 4 + 's';
+    document.body.appendChild(heart);
+    heart.addEventListener('animationend', () => heart.remove());
+  }
+  setInterval(createFallingHeart, 300);
+
+  const intro = document.getElementById("intro");
+  const main = document.getElementById("main");
+  const alertBox = document.getElementById("alertBox");
+  const questionBox = document.getElementById("questionBox");
+  const question = document.getElementById("question");
+  const giftSection = document.getElementById("giftSection");
+  const giftBox = document.getElementById("giftBox");
+  const bracelet = document.getElementById("bracelet");
+
+  const questions = [
+    "Em có biết anh yêu em nhiều lắm không?",
+    "20/10 Ở BÊN ANH KHÔNG?",
+    "EM YÊU ANH NHIỀU KHÔNG?",
+    "ANH KHÔNG TIỀN EM YÊU KHÔNG",
+    "Trái tim anh chỉ có một chỗ, em có muốn ở đó không?",
+    "Em có muốn nghe anh nói 'Anh yêu em' mãi không?",
+    "Nếu em lạc mất anh, em có tìm anh không?",
+    "Nếu mai này anh nắm tay em suốt đời, em có đồng ý không?"
+  ];
+
+  setTimeout(() => {
+    intro.style.display = "none";
+    main.style.display = "flex";
+  }, 5000);
+
+  document.getElementById("noSee").onclick = () => {
+    alertBox.classList.add("show");
+  };
+
+  document.getElementById("seeMore").onclick = () => {
+    main.style.display = "none";
+    questionBox.style.display = "flex";
+    showQuestion(0);
+  };
+
+  let index = 0;
+  function showQuestion(i) {
+    if (i >= questions.length) {
+      questionBox.style.display = "none";
+      giftSection.style.display = "flex";
+      bracelet.style.display = "none";
+      return;
+    }
+    question.style.opacity = 0;
+    setTimeout(() => {
+      question.textContent = questions[i];
+      question.style.opacity = 1;
+    }, 500);
+  }
+
+  document.getElementById("yesBtn").onclick = nextQuestion;
+  document.getElementById("noBtn").onclick = nextQuestion;
+
+  function nextQuestion() {
+    index++;
+    if (index < questions.length) {
+      showQuestion(index);
+    } else {
+      questionBox.style.display = "none";
+      giftSection.style.display = "flex";
+      bracelet.style.display = "none";
+    }
+  }
+
+  giftBox.onclick = () => {
+    giftBox.style.display = "none";
+    bracelet.style.display = "block";
+    bracelet.style.opacity = "1";
+    bracelet.style.animation = "braceletShow 2s ease forwards";
+  };
+</script>
+</body>
+</html>
